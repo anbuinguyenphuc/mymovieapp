@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {type PropsWithChildren} from 'react';
+import React, {useEffect, type PropsWithChildren, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -26,6 +26,8 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {API_KEY} from './src/api/api-action';
+import Home from './src/home/Home';
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -62,6 +64,7 @@ const App = () => {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
   };
 
   return (
@@ -70,30 +73,7 @@ const App = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+      <Home />
     </SafeAreaView>
   );
 };
