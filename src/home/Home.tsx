@@ -8,62 +8,18 @@
  * @format
  */
 
-import React, {useEffect, useState} from 'react';
-import {
-  Dimensions,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  View,
-  useColorScheme,
-} from 'react-native';
+import React from 'react';
+import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {API_KEY} from '../api/api-action';
 import MovieItem from './MovieItem';
-import {IMovie} from './IMovie';
 import {Searchbar} from 'react-native-paper';
-import {useDebounce} from '../helper/useDebounce';
+import {useSearchMovie} from '../sdk/MovieManager';
 
 const Home = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    flex: 1,
-  };
-  const [filmList, setFilmList] = useState<IMovie[]>([]);
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
-  useEffect(() => {
-    const url = debouncedSearchQuery
-      ? `https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&query=${debouncedSearchQuery}`
-      : 'https://api.themoviedb.org/3/trending/movie/day?language=en-US';
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    };
-
-    fetch(url, options)
-      .then(res => res.json())
-      .then(json => {
-        //console.log(JSON.stringify(json));
-        setFilmList(
-          json.results.map((i: any) => {
-            return {
-              ...i,
-              uri: i.backdrop_path
-                ? 'https://image.tmdb.org/t/p/original' + i.backdrop_path
-                : null,
-            };
-          }),
-        );
-      })
-      .catch(err => console.error(err));
-  }, [debouncedSearchQuery]);
+  const {movieList, setSearchQuery, searchQuery, loading} = useSearchMovie({
+    initSearchQuery: '',
+    performanceMode: 'debounce',
+  });
 
   return (
     <View style={{flex: 1, padding: 8}}>
@@ -72,14 +28,17 @@ const Home = () => {
           <Searchbar
             placeholder="Search"
             onChangeText={setSearchQuery}
-            style={{
-              marginBottom: 8,
-              backgroundColor: '#d6d6d6',
-            }}
+            style={styles.searchBar}
             value={searchQuery}
           />
         }
-        data={filmList}
+        refreshControl={
+          <RefreshControl
+            colors={['#9Bd35A', '#689F38']}
+            refreshing={loading}
+          />
+        }
+        data={movieList}
         renderItem={({item}) => <MovieItem movie={item} />}
         keyExtractor={item => item?.id?.toString()}
       />
@@ -88,6 +47,10 @@ const Home = () => {
 };
 
 const styles = StyleSheet.create({
+  searchBar: {
+    marginBottom: 8,
+    backgroundColor: '#d6d6d6',
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
