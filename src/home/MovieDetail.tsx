@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -22,27 +22,31 @@ import {
 import {useGetMovieDetail, useGetMovieReviews} from '../sdk/MovieManager';
 import {Text} from 'react-native-paper';
 import {IMAGE_ORIGINAL_URL} from '../sdk/ApiDomain';
-
+let reviewSectionPosition = 0;
 const screenWidth = Dimensions.get('window').width;
 const CARD_WIDTH = screenWidth;
 const CARD_HEIGHT = (CARD_WIDTH * 9) / 16;
 const MAX_ACTOR_ITEM = 5;
 const MovieDetail = (props: any) => {
+  const refScrollView = useRef<any>(null);
   const {id} = props?.route?.params;
   const {movieDetail, loading} = useGetMovieDetail({id});
-  const [currentPage, setCurrentPage] = useState(1);  // Current page for reviews
+  const [currentPage, setCurrentPage] = useState(1); // Current page for reviews
   const {reviews, totalPage} = useGetMovieReviews({id, page: currentPage});
   const castList = movieDetail?.credits?.cast;
-
   const handleNextPage = () => {
     if (currentPage < totalPage) {
-      setCurrentPage((prev) => prev + 1);
+      setCurrentPage(prev => prev + 1);
+      if (refScrollView)
+        refScrollView?.current?.scrollTo({y: reviewSectionPosition});
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
+      setCurrentPage(prev => prev - 1);
+      if (refScrollView)
+        refScrollView?.current?.scrollTo({y: reviewSectionPosition});
     }
   };
 
@@ -58,7 +62,7 @@ const MovieDetail = (props: any) => {
       <ActivityIndicator size="large" />
     </View>
   ) : (
-    <ScrollView style={styles.container}>
+    <ScrollView ref={refScrollView} style={styles.container}>
       {/* Backdrop */}
       <Image
         source={{
@@ -130,13 +134,24 @@ const MovieDetail = (props: any) => {
         ))}
         {castList && castList.length > MAX_ACTOR_ITEM && (
           <TouchableOpacity onPress={toggleActors}>
-            <Text style={styles.loadMoreText}>{'Load more'}</Text>
+            <Text style={styles.loadMoreText}>
+              {showAllActors ? 'Load less' : 'Load more'}
+            </Text>
           </TouchableOpacity>
         )}
       </View>
 
       {/* Reviews */}
-      <View style={styles.section}>
+      <View
+        style={styles.section}
+        onLayout={event => {
+          const layout = event.nativeEvent.layout;
+          console.log('height:', layout.height);
+          console.log('width:', layout.width);
+          console.log('x:', layout.x);
+          console.log('y:', layout.y);
+          reviewSectionPosition = layout.y;
+        }}>
         <Text style={styles.sectionTitle}>Reviews</Text>
         {reviews?.map(review => (
           <View key={review.id} style={styles.reviewItem}>
