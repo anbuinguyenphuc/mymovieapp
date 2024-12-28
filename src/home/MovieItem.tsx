@@ -9,7 +9,14 @@
  */
 
 import React from 'react';
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import {IMovie} from './IMovie';
 import moment from 'moment';
@@ -20,23 +27,36 @@ const CARD_HEIGHT = (CARD_WIDTH * 9) / 16;
 const MovieItem = ({movie}: {movie: IMovie}) => {
   var releaseDate = moment(movie.release_date, 'YYYY-MM-DD');
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => {
+        console.log('anbnp test');
+      }}
       style={{
         height: CARD_HEIGHT,
         marginBottom: 10,
         borderRadius: 8,
-        paddingHorizontal: PADDING_HORIZONAL,
       }}>
-      <Image
-        style={{
-          width: CARD_WIDTH,
-          height: CARD_HEIGHT,
-          borderRadius: 8,
-        }}
-        source={{
-          uri: movie.uri,
-        }}
-      />
+      {movie.uri ? (
+        <Image
+          style={{
+            width: CARD_WIDTH,
+            height: CARD_HEIGHT,
+            borderRadius: 8,
+          }}
+          source={{
+            uri: movie.uri,
+          }}
+        />
+      ) : (
+        <View
+          style={{
+            width: CARD_WIDTH,
+            height: CARD_HEIGHT,
+            backgroundColor: '#bdbdbd',
+            borderRadius: 8,
+          }}></View>
+      )}
+
       <View
         style={{
           position: 'absolute',
@@ -47,7 +67,7 @@ const MovieItem = ({movie}: {movie: IMovie}) => {
         <Text style={{fontSize: 22, fontWeight: 'bold'}}>{movie.title}</Text>
         <Text style={{fontSize: 12}}>{releaseDate.format('DD MMM YYYY')}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
