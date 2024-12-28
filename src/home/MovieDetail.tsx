@@ -19,7 +19,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {useGetMovieDetail, useGetMovieReviews} from '../sdk/MovieManager';
+import {useGetMovieDetail, useGetMovieReviews} from 'mymoviesdk';
 import {Text} from 'react-native-paper';
 
 let reviewSectionPosition = 0;

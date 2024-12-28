@@ -13,7 +13,7 @@ import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 
 import MovieItem from './MovieItem';
 import {Searchbar} from 'react-native-paper';
-import {useSearchMovie} from '../sdk/MovieManager';
+import {useSearchMovie} from 'mymoviesdk';
 
 const Home = () => {
   const {movieList, setSearchQuery, searchQuery, loading} = useSearchMovie({
