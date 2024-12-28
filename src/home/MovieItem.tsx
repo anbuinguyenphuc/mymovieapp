@@ -18,18 +18,22 @@ import {
   View,
 } from 'react-native';
 
-import {IMovie} from './IMovie';
+import {IMovie} from '../sdk/style';
 import moment from 'moment';
+import {useNavigation} from '@react-navigation/native';
+
 const screenWidth = Dimensions.get('window').width;
 const PADDING_HORIZONAL = 8;
 const CARD_WIDTH = screenWidth - PADDING_HORIZONAL * 2;
 const CARD_HEIGHT = (CARD_WIDTH * 9) / 16;
+
 const MovieItem = ({movie}: {movie: IMovie}) => {
+  const navigation = useNavigation<any>();
   var releaseDate = moment(movie.release_date, 'YYYY-MM-DD');
   return (
     <TouchableOpacity
       onPress={() => {
-        console.log('anbnp test');
+        navigation.navigate('MovieDetail', {id: movie.id});
       }}
       style={{
         height: CARD_HEIGHT,
