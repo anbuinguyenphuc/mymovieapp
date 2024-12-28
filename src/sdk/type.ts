@@ -76,8 +76,16 @@ export type IMovieDetail = {
 };
 
 export type Review = {
-  id: string;
   author: string;
+  author_details: {
+    name: string;
+    username: string;
+    avatar_path: string | null;
+    rating: number | null; // Include `null` since rating might not always be present
+  };
   content: string;
-  rating?: number;
+  created_at: string; // ISO date string
+  id: string;
+  updated_at: string; // ISO date string
+  url: string;
 };

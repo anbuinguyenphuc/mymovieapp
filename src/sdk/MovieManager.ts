@@ -128,7 +128,7 @@ export function useGetMovieReviews({id, page}: {id: number; page: number}): {
     fetch(url, options)
       .then(res => res.json())
       .then(json => {
-        console.log(json);
+        //console.log("anbnp",JSON.stringify(json));
         setLoading(false);
         setReviews(json?.results);
         setTotalPage(json?.total_pages);

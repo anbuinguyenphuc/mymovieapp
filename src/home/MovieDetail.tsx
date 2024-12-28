@@ -146,10 +146,6 @@ const MovieDetail = (props: any) => {
         style={styles.section}
         onLayout={event => {
           const layout = event.nativeEvent.layout;
-          console.log('height:', layout.height);
-          console.log('width:', layout.width);
-          console.log('x:', layout.x);
-          console.log('y:', layout.y);
           reviewSectionPosition = layout.y;
         }}>
         <Text style={styles.sectionTitle}>Reviews</Text>
@@ -157,9 +153,9 @@ const MovieDetail = (props: any) => {
           <View key={review.id} style={styles.reviewItem}>
             <Text style={styles.reviewAuthor}>{review.author}</Text>
             <Text style={styles.reviewContent}>{review.content}</Text>
-            {review.rating && (
+            {review?.author_details?.rating && (
               <Text style={styles.reviewRating}>
-                Rating: {review.rating} ⭐
+                Rating: {review?.author_details?.rating} ⭐
               </Text>
             )}
           </View>
