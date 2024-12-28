@@ -3,8 +3,7 @@ import {API_KEY} from '../api/api-action';
 import {IMovie} from '../home/IMovie';
 import {useDebounce} from '../helper/useDebounce';
 import {
-  API_DOMAIN,
-  IMAGE_URI,
+  IMAGE_ORIGINAL_URL,
   SEARCH_MOVIE_URL,
   TRENDING_MOVIE_URL,
 } from './ApiDomain';
@@ -44,7 +43,9 @@ export function useSearchMovie({
           json.results.map((i: any) => {
             return {
               ...i,
-              uri: i.backdrop_path ? IMAGE_URI + i.backdrop_path : null,
+              uri: i.backdrop_path
+                ? IMAGE_ORIGINAL_URL + i.backdrop_path
+                : null,
             };
           }),
         );
