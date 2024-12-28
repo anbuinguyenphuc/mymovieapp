@@ -18,7 +18,7 @@ import {
   View,
 } from 'react-native';
 
-import {IMovie} from '../sdk/style';
+import {IMovie} from '../sdk/type';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 

@@ -74,3 +74,10 @@ export type IMovieDetail = {
     }[];
   };
 };
+
+export type Review = {
+  id: string;
+  author: string;
+  content: string;
+  rating?: number;
+};

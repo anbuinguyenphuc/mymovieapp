@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react';
 import {API_KEY} from '../api/api-action';
-import {IMovie, IMovieDetail} from './style';
+import {IMovie, IMovieDetail, Review} from './type';
 import {useDebounce} from '../helper/useDebounce';
 import {
   GET_MOVIE_DETAIL_URL,
+  GET_MOVIE_REVIEWS_URL,
   IMAGE_ORIGINAL_URL,
   SEARCH_MOVIE_URL,
   TRENDING_MOVIE_URL,
@@ -75,6 +76,8 @@ export function useGetMovieDetail({id}: {id: number}): {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
+
+    //get movie details
     const url = `${GET_MOVIE_DETAIL_URL}${id}?&append_to_response=credits`;
 
     const options = {
@@ -99,4 +102,38 @@ export function useGetMovieDetail({id}: {id: number}): {
       .catch(err => console.error(err));
   }, []);
   return {movieDetail, loading};
+}
+
+export function useGetMovieReviews({id, page}: {id: number; page: number}): {
+  reviews: Review[];
+  totalPage: number;
+  loading: boolean;
+} {
+  const [totalPage, setTotalPage] = useState(page);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+
+    //get movie review
+    const url = GET_MOVIE_REVIEWS_URL(id, page);
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    };
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        setLoading(false);
+        setReviews(json?.results);
+        setTotalPage(json?.total_pages);
+      })
+      .catch(err => console.error(err));
+  }, [page]);
+  return {reviews, loading, totalPage};
 }
