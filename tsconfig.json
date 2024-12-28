@@ -8,5 +8,6 @@
     "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
     "jsx": "react-native",
     "paths": { "react": ["./node_modules/@types/react"] },
+    "noImplicitAny": false
   }
 }

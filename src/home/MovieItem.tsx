@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { memo } from 'react';
 import {
   Dimensions,
   Image,
@@ -40,42 +40,40 @@ const MovieItem = ({movie}: {movie: IMovie}) => {
         marginBottom: 10,
         borderRadius: 8,
       }}>
-      {movie.uri ? (
-        <Image
-          style={{
-            width: CARD_WIDTH,
-            height: CARD_HEIGHT,
-            borderRadius: 8,
-          }}
-          source={{
-            uri: movie.uri,
-          }}
-        />
-      ) : (
-        <View
-          style={{
-            width: CARD_WIDTH,
-            height: CARD_HEIGHT,
-            backgroundColor: '#bdbdbd',
-            borderRadius: 8,
-          }}></View>
-      )}
+      <Image
+        style={{
+          width: CARD_WIDTH,
+          height: CARD_HEIGHT,
+          borderRadius: 8,
+        }}
+        source={
+          movie.uri
+            ? {
+                uri: movie.uri,
+              }
+            : require('./video-player-placeholder.jpg')
+        }
+      />
 
       <View
         style={{
           position: 'absolute',
           left: PADDING_HORIZONAL,
-          bottom: 0,
+          bottom: 8,
           padding: 8,
         }}>
-        <Text style={{fontSize: 22, fontWeight: 'bold'}}>{movie.title}</Text>
-        <Text style={{fontSize: 12}}>{releaseDate.format('DD MMM YYYY')}</Text>
+        <Text style={styles.title}>{movie.title}</Text>
+        <Text style={styles.releaseDate}>
+          {releaseDate.format('DD MMM YYYY')}
+        </Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  title: {fontSize: 22, fontWeight: 'bold', color: 'white'},
+  releaseDate: {fontSize: 12, color: 'white'},
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
@@ -94,4 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MovieItem;
+export default memo(MovieItem);

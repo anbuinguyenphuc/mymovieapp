@@ -21,7 +21,7 @@ import {
 
 import {useGetMovieDetail, useGetMovieReviews} from '../sdk/MovieManager';
 import {Text} from 'react-native-paper';
-import {IMAGE_ORIGINAL_URL} from '../sdk/ApiDomain';
+
 let reviewSectionPosition = 0;
 const screenWidth = Dimensions.get('window').width;
 const CARD_WIDTH = screenWidth;
@@ -149,40 +149,46 @@ const MovieDetail = (props: any) => {
           reviewSectionPosition = layout.y;
         }}>
         <Text style={styles.sectionTitle}>Reviews</Text>
-        {reviews?.map(review => (
-          <View key={review.id} style={styles.reviewItem}>
-            <Text style={styles.reviewAuthor}>{review.author}</Text>
-            <Text style={styles.reviewContent}>{review.content}</Text>
-            {review?.author_details?.rating && (
-              <Text style={styles.reviewRating}>
-                Rating: {review?.author_details?.rating} ⭐
+        {reviews?.length === 0 ? (
+          <Text>{"No reviews"}</Text>
+        ) : (
+          <>
+            {reviews?.map(review => (
+              <View key={review.id} style={styles.reviewItem}>
+                <Text style={styles.reviewAuthor}>{review.author}</Text>
+                <Text style={styles.reviewContent}>{review.content}</Text>
+                {review?.author_details?.rating && (
+                  <Text style={styles.reviewRating}>
+                    Rating: {review?.author_details?.rating} ⭐
+                  </Text>
+                )}
+              </View>
+            ))}
+            <View style={styles.pagination}>
+              <TouchableOpacity
+                onPress={handlePreviousPage}
+                disabled={currentPage === 1}
+                style={[
+                  styles.pageButton,
+                  currentPage === 1 && styles.disabledButton,
+                ]}>
+                <Text style={styles.pageButtonText}>Previous</Text>
+              </TouchableOpacity>
+              <Text style={styles.pageIndicator}>
+                Page {currentPage} of {totalPage}
               </Text>
-            )}
-          </View>
-        ))}
-        <View style={styles.pagination}>
-          <TouchableOpacity
-            onPress={handlePreviousPage}
-            disabled={currentPage === 1}
-            style={[
-              styles.pageButton,
-              currentPage === 1 && styles.disabledButton,
-            ]}>
-            <Text style={styles.pageButtonText}>Previous</Text>
-          </TouchableOpacity>
-          <Text style={styles.pageIndicator}>
-            Page {currentPage} of {totalPage}
-          </Text>
-          <TouchableOpacity
-            onPress={handleNextPage}
-            disabled={currentPage === totalPage}
-            style={[
-              styles.pageButton,
-              currentPage === totalPage && styles.disabledButton,
-            ]}>
-            <Text style={styles.pageButtonText}>Next</Text>
-          </TouchableOpacity>
-        </View>
+              <TouchableOpacity
+                onPress={handleNextPage}
+                disabled={currentPage === totalPage}
+                style={[
+                  styles.pageButton,
+                  currentPage === totalPage && styles.disabledButton,
+                ]}>
+                <Text style={styles.pageButtonText}>Next</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </View>
     </ScrollView>
   );

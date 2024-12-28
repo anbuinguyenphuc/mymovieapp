@@ -14,7 +14,6 @@ import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import MovieItem from './MovieItem';
 import {Searchbar} from 'react-native-paper';
 import {useSearchMovie} from '../sdk/MovieManager';
-import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
   const {movieList, setSearchQuery, searchQuery, loading} = useSearchMovie({
@@ -23,15 +22,18 @@ const Home = () => {
   });
 
   return (
-    <View style={{flex: 1, padding: 8}}>
+    <View style={styles.container}>
       <FlatList
+        stickyHeaderIndices={[0]}
         ListHeaderComponent={
-          <Searchbar
-            placeholder="Search"
-            onChangeText={setSearchQuery}
-            style={styles.searchBar}
-            value={searchQuery}
-          />
+          <View style={styles.searchBarContainer}>
+            <Searchbar
+              placeholder="Search"
+              onChangeText={setSearchQuery}
+              style={styles.searchBar}
+              value={searchQuery}
+            />
+          </View>
         }
         refreshControl={
           <RefreshControl
@@ -48,6 +50,8 @@ const Home = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {flex: 1, padding: 8, backgroundColor: 'white'},
+  searchBarContainer: {backgroundColor: '#fff'},
   searchBar: {
     marginBottom: 8,
     backgroundColor: '#d6d6d6',

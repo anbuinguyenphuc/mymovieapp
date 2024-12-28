@@ -15,27 +15,37 @@ import Home from './src/home/Home';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MovieDetail from './src/home/MovieDetail';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Home"
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="MovieDetail" component={MovieDetail} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaView style={styles.safeAreaContainer}>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen
+              options={{headerShown: true}}
+              name="MovieDetail"
+              component={MovieDetail}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 };
 
 const styles = StyleSheet.create({
+  safeAreaContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
