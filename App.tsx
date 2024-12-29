@@ -16,9 +16,15 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MovieDetail from './src/home/MovieDetail';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import { initSdk } from 'mymoviesdk';
-import { API_KEY } from './src/api/key';
-initSdk({apiKey: API_KEY})
+import {initSdk} from 'mymoviesdk';
+import {API_KEY} from './src/api/key';
+import {setJSExceptionHandler} from 'react-native-exception-handler';
+import {handleError} from './src/hook/useHandleError';
+//setJSExceptionHandler to handle JS exceptions
+setJSExceptionHandler((error, isFatal) => {
+  handleError(error);
+}, true);
+initSdk({apiKey: API_KEY});
 const Stack = createNativeStackNavigator();
 const App = () => {
   return (
