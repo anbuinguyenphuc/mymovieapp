@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 
 import MovieItem from './MovieItem';
@@ -16,14 +16,22 @@ import {Searchbar} from 'react-native-paper';
 import {useSearchMovie} from 'mymoviesdk';
 
 const Home = () => {
+  const flatListRef = useRef<any>(null);
+  
   const {movieList, setSearchQuery, searchQuery, loading} = useSearchMovie({
     initSearchQuery: '',
     performanceMode: 'debounce',
   });
+
+  useEffect(() => {
+    if (flatListRef) flatListRef?.current?.scrollToOffset({y: 0});
+  }, [searchQuery]);
+
   const renderItem = useCallback(({item}) => <MovieItem movie={item} />, []);
   return (
     <View style={styles.container}>
       <FlatList
+        ref={flatListRef}
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
           <View style={styles.searchBarContainer}>
