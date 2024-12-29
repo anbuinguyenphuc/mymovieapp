@@ -19,7 +19,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {IMAGE_500_URL, useGetMovieDetail, useGetMovieReviews} from 'mymoviesdk';
+import {
+  IMAGE_500_URL,
+  useGetMovieDetail,
+  useGetMovieKeywords,
+  useGetMovieReviews,
+} from 'mymoviesdk';
 import {Text} from 'react-native-paper';
 
 let reviewSectionPosition = 0;
@@ -33,6 +38,7 @@ const MovieDetail = (props: any) => {
   const {movieDetail, loading} = useGetMovieDetail({id});
   const [currentPage, setCurrentPage] = useState(1); // Current page for reviews
   const {reviews, totalPage} = useGetMovieReviews({id, page: currentPage});
+  const {keywords} = useGetMovieKeywords({id});
   const castList = movieDetail?.credits?.cast;
   const handleNextPage = () => {
     if (currentPage < totalPage) {
@@ -113,6 +119,22 @@ const MovieDetail = (props: any) => {
         </Text>
       </View>
 
+      {/* Keywords Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Keywords</Text>
+        <View style={styles.keywordsContainer}>
+          {keywords.length > 0 ? (
+            keywords.map((keyword, index) => (
+              <View key={index} style={styles.keyword}>
+                <Text style={styles.keywordText}>{keyword?.name}</Text>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.noKeywords}>No keywords available.</Text>
+          )}
+        </View>
+      </View>
+
       {/* Cast */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Cast</Text>
@@ -150,7 +172,7 @@ const MovieDetail = (props: any) => {
         }}>
         <Text style={styles.sectionTitle}>Reviews</Text>
         {reviews?.length === 0 ? (
-          <Text>{"No reviews"}</Text>
+          <Text>{'No reviews'}</Text>
         ) : (
           <>
             {reviews?.map(review => (
@@ -323,6 +345,27 @@ const styles = StyleSheet.create({
   pageIndicator: {
     fontSize: 16,
     color: '#333',
+  },
+  keywordsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  keyword: {
+    backgroundColor: '#007bff',
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    marginRight: 8,
+    marginBottom: 8,
+  },
+  keywordText: {
+    color: '#fff',
+    fontSize: 12,
+  },
+  noKeywords: {
+    fontSize: 14,
+    color: '#777',
   },
 });
 
