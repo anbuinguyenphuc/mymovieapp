@@ -19,7 +19,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {useGetMovieDetail, useGetMovieReviews} from 'mymoviesdk';
+import {IMAGE_500_URL, useGetMovieDetail, useGetMovieReviews} from 'mymoviesdk';
 import {Text} from 'react-native-paper';
 
 let reviewSectionPosition = 0;
@@ -75,7 +75,7 @@ const MovieDetail = (props: any) => {
       <View style={styles.header}>
         <Image
           source={{
-            uri: `https://image.tmdb.org/t/p/w500${movieDetail?.poster_path}`,
+            uri: `${IMAGE_500_URL}${movieDetail?.poster_path}`,
           }}
           style={styles.poster}
         />
@@ -121,7 +121,7 @@ const MovieDetail = (props: any) => {
             <Image
               source={{
                 uri: actor.profile_path
-                  ? `https://image.tmdb.org/t/p/w500${actor.profile_path}`
+                  ? `${IMAGE_500_URL}${actor.profile_path}`
                   : 'https://via.placeholder.com/50',
               }}
               style={styles.castImage}
