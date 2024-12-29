@@ -31,8 +31,10 @@ Ensure you have the following tools installed before getting started:
  
 4. **Start IOS App**
 ```bash
+    cd ios
     bundle install
     bundle exec pod install
+    cd ..
     yarn run ios
 ```
     Note: change ruby version in ./Gemfile if you meet error 'Your Ruby version is x.x.x, but your Gemfile specified y.y.y'
