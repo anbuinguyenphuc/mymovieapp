@@ -19,11 +19,17 @@ import {useHandleError} from '../hook/useHandleError';
 const Home = () => {
   const flatListRef = useRef<any>(null);
 
-  const {movieList, setSearchQuery, searchQuery, loading, error} =
-    useSearchMovie({
-      initSearchQuery: '',
-      performanceMode: 'debounce',
-    });
+  const {
+    movieList,
+    setSearchQuery,
+    searchQuery,
+    loading,
+    error,
+    refreshMovies,
+  } = useSearchMovie({
+    initSearchQuery: '',
+    performanceMode: 'debounce',
+  });
   useHandleError(error);
   useEffect(() => {
     if (flatListRef) flatListRef?.current?.scrollToOffset({y: 0});
@@ -49,6 +55,7 @@ const Home = () => {
           <RefreshControl
             colors={['#9Bd35A', '#689F38']}
             refreshing={loading}
+            onRefresh={refreshMovies}
           />
         }
         data={movieList}

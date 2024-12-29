@@ -33,6 +33,7 @@ import {handleError} from './src/hook/useHandleError';
  * 7. Covering app with test cases by using Jest or Detox.
  * 8. Have better UI design.
  * 9. Consider switching to flashlist to improve list performance at scale.
+ * 10. Supporting documentation for SDK integration and function details.
  */
 
 //setJSExceptionHandler to handle JS exceptions
