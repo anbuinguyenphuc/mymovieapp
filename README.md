@@ -13,6 +13,7 @@ Ensure you have the following tools installed before getting started:
 4. **Android Studio (for Android) and/or Xcode (for iOS)**
     - Android: https://developer.android.com/studio
     - iOS: Install Xcode from the Mac App Store.
+5. **Consider following these instructions if you're starting from scratch**: (https://reactnative.dev/docs/0.70/environment-setup)
 ## Installation
 1. **Install node_modules**
  ```bash
