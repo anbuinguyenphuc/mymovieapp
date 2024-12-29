@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { memo } from 'react';
+import React, {memo} from 'react';
 import {
   Dimensions,
   Image,
@@ -35,17 +35,9 @@ const MovieItem = ({movie}: {movie: IMovie}) => {
       onPress={() => {
         navigation.navigate('MovieDetail', {id: movie.id});
       }}
-      style={{
-        height: CARD_HEIGHT,
-        marginBottom: 10,
-        borderRadius: 8,
-      }}>
+      style={styles.card}>
       <Image
-        style={{
-          width: CARD_WIDTH,
-          height: CARD_HEIGHT,
-          borderRadius: 8,
-        }}
+        style={styles.image}
         source={
           movie.uri
             ? {
@@ -55,13 +47,7 @@ const MovieItem = ({movie}: {movie: IMovie}) => {
         }
       />
 
-      <View
-        style={{
-          position: 'absolute',
-          left: PADDING_HORIZONAL,
-          bottom: 8,
-          padding: 8,
-        }}>
+      <View style={styles.titleContainer}>
         <Text style={styles.title}>{movie.title}</Text>
         <Text style={styles.releaseDate}>
           {releaseDate.format('DD MMM YYYY')}
@@ -89,6 +75,25 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#f9f9f9',
+    marginBottom: 10,
+    borderRadius: 8,
+    overflow: 'hidden',
+    elevation: 2,
+  },
+  image: {
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
+    borderRadius: 8,
+  },
+  titleContainer: {
+    position: 'absolute',
+    left: PADDING_HORIZONAL,
+    bottom: 8,
+    padding: 8,
   },
 });
 
