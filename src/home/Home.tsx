@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useCallback} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 
 import MovieItem from './MovieItem';
@@ -20,7 +20,7 @@ const Home = () => {
     initSearchQuery: '',
     performanceMode: 'debounce',
   });
-
+  const renderItem = useCallback(({item}) => <MovieItem movie={item} />, []);
   return (
     <View style={styles.container}>
       <FlatList
@@ -42,8 +42,11 @@ const Home = () => {
           />
         }
         data={movieList}
-        renderItem={({item}) => <MovieItem movie={item} />}
+        renderItem={renderItem}
         keyExtractor={item => item?.id?.toString()}
+        removeClippedSubviews={false}
+        maxToRenderPerBatch={3}
+        initialNumToRender={5}
       />
     </View>
   );
