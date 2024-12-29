@@ -9,7 +9,13 @@
  */
 
 import React, {useCallback, useEffect, useRef} from 'react';
-import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  Keyboard,
+  RefreshControl,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import MovieItem from './MovieItem';
 import {Searchbar} from 'react-native-paper';
@@ -34,6 +40,12 @@ const Home = () => {
   useEffect(() => {
     if (flatListRef) flatListRef?.current?.scrollToOffset({y: 0});
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (!loading) {
+      Keyboard.dismiss();
+    }
+  }, [loading]);
 
   const renderItem = useCallback(({item}) => <MovieItem movie={item} />, []);
   return (
