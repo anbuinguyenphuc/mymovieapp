@@ -14,15 +14,17 @@ import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import MovieItem from './MovieItem';
 import {Searchbar} from 'react-native-paper';
 import {useSearchMovie} from 'mymoviesdk';
+import {useHandleError} from '../hook/useHandleError';
 
 const Home = () => {
   const flatListRef = useRef<any>(null);
-  
-  const {movieList, setSearchQuery, searchQuery, loading} = useSearchMovie({
-    initSearchQuery: '',
-    performanceMode: 'debounce',
-  });
 
+  const {movieList, setSearchQuery, searchQuery, loading, error} =
+    useSearchMovie({
+      initSearchQuery: '',
+      performanceMode: 'debounce',
+    });
+  useHandleError(error);
   useEffect(() => {
     if (flatListRef) flatListRef?.current?.scrollToOffset({y: 0});
   }, [searchQuery]);

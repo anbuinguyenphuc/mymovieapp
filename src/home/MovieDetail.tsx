@@ -10,7 +10,6 @@
 
 import React, {useRef, useState} from 'react';
 import {
-  Dimensions,
   StyleSheet,
   View,
   Image,
@@ -26,19 +25,30 @@ import {
   useGetMovieReviews,
 } from 'mymoviesdk';
 import {Text} from 'react-native-paper';
+import {useHandleError} from '../hook/useHandleError';
 
 let reviewSectionPosition = 0;
-const screenWidth = Dimensions.get('window').width;
-const CARD_WIDTH = screenWidth;
-const CARD_HEIGHT = (CARD_WIDTH * 9) / 16;
 const MAX_ACTOR_ITEM = 5;
 const MovieDetail = (props: any) => {
   const refScrollView = useRef<any>(null);
   const {id} = props?.route?.params;
-  const {movieDetail, loading} = useGetMovieDetail({id});
   const [currentPage, setCurrentPage] = useState(1); // Current page for reviews
-  const {reviews, totalPage} = useGetMovieReviews({id, page: currentPage});
-  const {keywords} = useGetMovieKeywords({id});
+  // #region Hook section
+  const {
+    movieDetail,
+    loading,
+    error: errorMovieDetail,
+  } = useGetMovieDetail({id});
+  const {
+    reviews,
+    totalPage,
+    error: errorMovieReview,
+  } = useGetMovieReviews({id, page: currentPage});
+  const {keywords, error: errorMovieKeyword} = useGetMovieKeywords({id});
+  useHandleError(errorMovieDetail || errorMovieKeyword || errorMovieReview);
+  // #endregion
+
+  // #region handle pagination section
   const castList = movieDetail?.credits?.cast;
   const handleNextPage = () => {
     if (currentPage < totalPage) {
@@ -55,14 +65,16 @@ const MovieDetail = (props: any) => {
         refScrollView?.current?.scrollTo({y: reviewSectionPosition});
     }
   };
+  // #endregion
 
+  // #region handle show all actor section
   const [showAllActors, setShowAllActors] = useState(false);
   const toggleActors = () => {
     setShowAllActors(prev => !prev);
   };
 
   const visibleActors = showAllActors ? castList : castList?.slice(0, 5);
-
+  // #endregion
   //because this component is not big enough so no need to split below sections to separate componnents
   const renderPosterSection = () => {
     return (
