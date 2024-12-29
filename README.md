@@ -24,11 +24,15 @@ Ensure you have the following tools installed before getting started:
 ```
 3. **Start Android App**
 ```bash
-    yarn run android
+    yarn run android 
 ```
+ 
+    Note: change sdk.dir in ./android/local.properties to your path if you meet error 'SDK location not found. Define a valid SDK location with an ANDROID_HOME environment variable or by setting the sdk.dir path in your project's local properties file at '/Users/an.bui/Desktop/mymovieapp/android/local.properties'
+ 
 4. **Start IOS App**
 ```bash
     bundle install
     bundle exec pod install
     yarn run ios
 ```
+    Note: change ruby version in ./Gemfile if you meet error 'Your Ruby version is x.x.x, but your Gemfile specified y.y.y'
