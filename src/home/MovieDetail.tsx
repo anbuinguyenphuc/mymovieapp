@@ -63,21 +63,9 @@ const MovieDetail = (props: any) => {
 
   const visibleActors = showAllActors ? castList : castList?.slice(0, 5);
 
-  return loading ? (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <ActivityIndicator size="large" />
-    </View>
-  ) : (
-    <ScrollView ref={refScrollView} style={styles.container}>
-      {/* Backdrop */}
-      <Image
-        source={{
-          uri: movieDetail?.backdrop_url,
-        }}
-        style={styles.backdrop}
-      />
-
-      {/* Poster and Title Section */}
+  //because this component is not big enough so no need to split below sections to separate componnents
+  const renderPosterSection = () => {
+    return (
       <View style={styles.header}>
         <Image
           source={{
@@ -94,22 +82,30 @@ const MovieDetail = (props: any) => {
           </Text>
         </View>
       </View>
+    );
+  };
 
-      {/* Genres */}
+  const renderGenresSection = () => {
+    return (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Genres</Text>
         <Text style={styles.text}>
           {movieDetail?.genres.map(genre => genre.name).join(', ')}
         </Text>
       </View>
+    );
+  };
 
-      {/* Overview */}
+  const renderOverviewSection = () => {
+    return (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Overview</Text>
         <Text style={styles.text}>{movieDetail?.overview}</Text>
       </View>
-
-      {/* Production Companies */}
+    );
+  };
+  const renderCompanySection = () => {
+    return (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Production Companies</Text>
         <Text style={styles.text}>
@@ -118,8 +114,11 @@ const MovieDetail = (props: any) => {
             .join(', ')}
         </Text>
       </View>
+    );
+  };
 
-      {/* Keywords Section */}
+  const renderKeywordsSection = () => {
+    return (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Keywords</Text>
         <View style={styles.keywordsContainer}>
@@ -134,8 +133,11 @@ const MovieDetail = (props: any) => {
           )}
         </View>
       </View>
+    );
+  };
 
-      {/* Cast */}
+  const renderCastSection = () => {
+    return (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Cast</Text>
         {visibleActors?.map(actor => (
@@ -162,8 +164,11 @@ const MovieDetail = (props: any) => {
           </TouchableOpacity>
         )}
       </View>
+    );
+  };
 
-      {/* Reviews */}
+  const renderReviewSection = () => {
+    return (
       <View
         style={styles.section}
         onLayout={event => {
@@ -212,6 +217,30 @@ const MovieDetail = (props: any) => {
           </>
         )}
       </View>
+    );
+  };
+
+  return loading ? (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <ActivityIndicator size="large" />
+    </View>
+  ) : (
+    <ScrollView ref={refScrollView} style={styles.container}>
+      {/* Backdrop */}
+      <Image
+        source={{
+          uri: movieDetail?.backdrop_url,
+        }}
+        style={styles.backdrop}
+      />
+
+      {renderPosterSection()}
+      {renderGenresSection()}
+      {renderOverviewSection()}
+      {renderCompanySection()}
+      {renderKeywordsSection()}
+      {renderCastSection()}
+      {renderReviewSection()}
     </ScrollView>
   );
 };
