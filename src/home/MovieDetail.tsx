@@ -21,8 +21,11 @@ import {
 import {
   IMAGE_500_URL,
   useGetMovieDetail,
+  useGetMovieDetailV2,
   useGetMovieKeywords,
+  useGetMovieKeywordsV2,
   useGetMovieReviews,
+  useGetMovieReviewsV2,
 } from 'mymoviesdk';
 import {Text} from 'react-native-paper';
 import {useHandleError} from '../hook/useHandleError';
@@ -38,13 +41,13 @@ const MovieDetail = (props: any) => {
     movieDetail,
     loading,
     error: errorMovieDetail,
-  } = useGetMovieDetail({id});
+  } = useGetMovieDetailV2({id});
   const {
     reviews,
     totalPage,
     error: errorMovieReview,
-  } = useGetMovieReviews({id, page: currentPage});
-  const {keywords, error: errorMovieKeyword} = useGetMovieKeywords({id});
+  } = useGetMovieReviewsV2({id, page: currentPage});
+  const {keywords, error: errorMovieKeyword} = useGetMovieKeywordsV2({id});
   useHandleError(errorMovieDetail || errorMovieKeyword || errorMovieReview);
   // #endregion
 

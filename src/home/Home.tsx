@@ -19,12 +19,11 @@ import {
 
 import MovieItem from './MovieItem';
 import {Searchbar} from 'react-native-paper';
-import {useSearchMovie} from 'mymoviesdk';
+import {useSearchMovieV2} from 'mymoviesdk';
 import {useHandleError} from '../hook/useHandleError';
 
 const Home = () => {
   const flatListRef = useRef<any>(null);
-
   const {
     movieList,
     setSearchQuery,
@@ -32,7 +31,7 @@ const Home = () => {
     loading,
     error,
     refreshMovies,
-  } = useSearchMovie({
+  } = useSearchMovieV2({
     initSearchQuery: '',
     performanceMode: 'debounce',
   });
