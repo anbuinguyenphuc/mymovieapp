@@ -5645,7 +5645,7 @@ ms@2.1.3, ms@^2.1.3:
 
 "mymoviesdk@https://github.com/anbuinguyenphuc/mymoviesdk.git":
   version "0.1.0"
-  resolved "https://github.com/anbuinguyenphuc/mymoviesdk.git#c4186c8e25acd6bcfe0073c89bdf3a0dd10eeb5f"
+  resolved "https://github.com/anbuinguyenphuc/mymoviesdk.git#e184dc15c28f8e40534d952963061e2dbc471ee4"
 
 nanoid@^3.1.23:
   version "3.3.8"

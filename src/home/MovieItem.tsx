@@ -18,7 +18,7 @@ import {
   View,
 } from 'react-native';
 
-import {IMovie} from 'mymoviesdk';
+import {IMAGE_500_URL, IMovie} from 'mymoviesdk';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 
@@ -39,9 +39,9 @@ const MovieItem = ({movie}: {movie: IMovie}) => {
       <Image
         style={styles.image}
         source={
-          movie.uri
+          movie.backdrop_path
             ? {
-                uri: movie.uri,
+                uri: IMAGE_500_URL + movie.backdrop_path,
               }
             : require('./video-player-placeholder.jpg')
         }

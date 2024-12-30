@@ -19,22 +19,16 @@ import {
 
 import MovieItem from './MovieItem';
 import {Searchbar} from 'react-native-paper';
-import {useSearchMovieV2} from 'mymoviesdk';
+import {IMovie, useSearchMovieV2} from 'mymoviesdk';
 import {useHandleError} from '../hook/useHandleError';
 
 const Home = () => {
   const flatListRef = useRef<any>(null);
-  const {
-    movieList,
-    setSearchQuery,
-    searchQuery,
-    loading,
-    error,
-    refreshMovies,
-  } = useSearchMovieV2({
-    initSearchQuery: '',
-    performanceMode: 'debounce',
-  });
+  const {movieList, setSearchQuery, searchQuery, loading, error, loadMore} =
+    useSearchMovieV2({
+      initSearchQuery: '',
+      performanceMode: 'debounce',
+    });
   useHandleError(error);
   useEffect(() => {
     if (flatListRef) flatListRef?.current?.scrollToOffset({y: 0});
@@ -45,6 +39,7 @@ const Home = () => {
       Keyboard.dismiss();
     }
   }, [loading]);
+  //console.log('movieList', JSON.stringify(movieList));
 
   const renderItem = useCallback(({item}) => <MovieItem movie={item} />, []);
   return (
@@ -66,15 +61,16 @@ const Home = () => {
           <RefreshControl
             colors={['#9Bd35A', '#689F38']}
             refreshing={loading}
-            onRefresh={refreshMovies}
+            //onRefresh={refreshMovies}
           />
         }
         data={movieList}
         renderItem={renderItem}
         keyExtractor={item => item?.id?.toString()}
-        removeClippedSubviews={false}
         maxToRenderPerBatch={3}
         initialNumToRender={5}
+        onEndReachedThreshold={1}
+        onEndReached={loadMore}
       />
     </View>
   );
