@@ -26,15 +26,14 @@ import store from 'mymoviesdk/src/sdk/redux/store';
  * //TODO
  * WHAT COULD BE DONE BETTER IN THIS PROJECT IF IT IS A REAL PRODUCT
  * 1. Caching movies list to reduce loading time and reduce traffic for Backend Services by using mem-cache technic and react-native-mmkv storage.
- * 2. Adding Redux (thunk) to support state management at scale better, for now I'm think it's good enough to use React Hook.
- * 3. Adding proguard to protect reverse engineering.
- * 4. Adding feature searching movie by keywords because currently, the offical api that suppot searching by keywords is deprecated and don't look optimized for searching flow.
- * 5. Optimizing movie list performance by calculating internet quality to swith bettween hight and low quality images.
- * 6. Optimizing movie detail screen by lazy loading Review section (only start requesting reviews when user scroll near to bottom).
- * 7. Covering app with test cases by using Jest or Detox.
- * 8. Have better UI design.
- * 9. Consider switching to flashlist to improve list performance at scale.
- * 10. Supporting documentation for SDK integration and function details.
+ * 2. Adding proguard to protect reverse engineering.
+ * 3. Adding feature searching movie by keywords because currently, the offical api that suppot searching by keywords is deprecated and don't look optimized for searching flow.
+ * 4. Optimizing movie list performance by calculating internet quality to swith bettween hight and low quality images.
+ * 5. Optimizing movie detail screen by lazy loading Review section (only start requesting reviews when user scroll near to bottom).
+ * 6. Covering app with test cases by using Jest or Detox.
+ * 7. Have better UI design.
+ * 8. Consider switching to flashlist to improve list performance at scale.
+ * 9. Supporting documentation for SDK integration and function details.
  */
 
 //setJSExceptionHandler to handle JS exceptions
