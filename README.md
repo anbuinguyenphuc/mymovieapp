@@ -39,3 +39,5 @@ Ensure you have the following tools installed before getting started:
     yarn run ios
 ```
     Note: change ruby version in ./Gemfile if you meet error 'Your Ruby version is x.x.x, but your Gemfile specified y.y.y'
+## Optional
+    The app utilizes The Movie Database API (https://developer.themoviedb.org/) for movie data. If you wish to run it using your own account, please replace the API_KEY in the ./env file with your personal key.
